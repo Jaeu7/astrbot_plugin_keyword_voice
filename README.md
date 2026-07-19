@@ -12,7 +12,7 @@ AstrBot 关键词检测插件，检测到自定义关键词后自动发送对应
 
 ## 安装
 
-将插件目录放入 AstrBot 的 `data/plugins/` 目录下，或在 AstrBot WebUI 中通过插件市场安装。
+将插件目录放入 AstrBot 的 `data/plugins/` 目录下
 
 ## 配置
 
@@ -58,7 +58,3 @@ astrbot_plugin_keyword_voice/
     ├── hello.mp3
     └── ...
 ```
-
-## License
-
-MIT
