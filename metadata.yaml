@@ -1,6 +1,0 @@
-name: astrbot_plugin_keyword_voice
-display_name: 关键词语音插件
-desc: 检测到自定义关键词后自动发送用户上传的语音文件。
-version: v1.0.0
-author: Jaeu7
-repo: https://github.com/Jaeu7/astrbot_plugin_keyword_voice
