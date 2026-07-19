@@ -1,0 +1,13 @@
+# Python
+__pycache__/
+*.py[codz]
+*.egg-info/
+.venv/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
