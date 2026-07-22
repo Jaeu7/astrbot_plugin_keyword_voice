@@ -58,7 +58,3 @@ astrbot_plugin_keyword_voice/
     ├── hello.mp3
     └── ...
 ```
-
-## License
-
-MIT
