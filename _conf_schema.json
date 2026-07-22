@@ -1,32 +1,68 @@
 {
-    "enable": {
-        "description": "启用插件",
-        "type": "bool",
-        "default": true,
-        "hint": "是否启用关键词语音回复功能"
-    },
-    "debug_mode": {
-        "description": "调试模式",
+    "r18": {
+        "description": "是否开启 R18 内容",
         "type": "bool",
         "default": false,
-        "hint": "启用后会在日志中输出详细的关键词匹配信息"
+        "hint": "开启后将可能返回 R18 图片，请遵守相关法律法规"
     },
-    "keyword_voice_mapping": {
-        "description": "关键词-语音文件映射",
-        "type": "text",
-        "default": "{\"你好\": \"hello.mp3\", \"早上好\": \"good_morning.mp3\"}",
-        "hint": "JSON格式，key为关键词，value为语音文件名"
+    "max_num": {
+        "description": "单次请求最多返回的图片数量",
+        "type": "int",
+        "default": 3,
+        "hint": "范围 1-20，超过将自动截断"
     },
-    "voices_dir": {
-        "description": "语音文件目录",
+    "proxy": {
+        "description": "图片代理地址",
         "type": "string",
-        "default": "voices",
-        "hint": "语音文件存放的目录，相对于插件目录"
+        "default": "i.pixiv.re",
+        "hint": "用于加速图片访问，默认使用 i.pixiv.re"
     },
-    "fallback_to_text": {
-        "description": "语音文件缺失时回退到文本",
+    "size": {
+        "description": "返回的图片规格",
+        "type": "string",
+        "default": "regular",
+        "hint": "可选：original, regular, small, thumb, mini"
+    },
+    "use_forward": {
+        "description": "是否以聊天记录形式发送图片",
+        "type": "bool",
+        "default": false,
+        "hint": "开启后多张图片会以合并转发消息形式发出（类似聊天记录），仅部分平台支持"
+    },
+    "filter_ai": {
+        "description": "是否过滤 AI 生成的作品",
+        "type": "bool",
+        "default": false,
+        "hint": "开启后将只返回非 AI 生成的图片（aiType=0）"
+    },
+    "auto_recall": {
+        "description": "是否自动撤回发送的图片",
+        "type": "bool",
+        "default": false,
+        "hint": "开启后将在指定时间后自动撤回图片消息（仅 QQ 平台有效）"
+    },
+    "recall_time": {
+        "description": "自动撤回时间（秒）",
+        "type": "int",
+        "default": 60,
+        "hint": "发送后多少秒撤回，QQ 限制最长 120 秒"
+    },
+    "forward_fallback": {
+        "description": "合并转发失败时是否回退为普通图片发送",
         "type": "bool",
         "default": true,
-        "hint": "当语音文件不存在时，是否发送文本提示"
+        "hint": "开启后合并转发失败将自动改为逐张普通图片发送，关闭则发送报错信息"
+    },
+    "send_interval": {
+        "description": "发送图片之间的间隔（秒）",
+        "type": "float",
+        "default": 1.0,
+        "hint": "逐张发送图片时，每张图片之间的最小间隔"
+    },
+    "send_retry": {
+        "description": "发送失败后的重试次数",
+        "type": "int",
+        "default": 2,
+        "hint": "bot API 发送超时后的重试次数，采用指数退避"
     }
 }
