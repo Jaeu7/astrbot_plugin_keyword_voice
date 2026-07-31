@@ -30,20 +30,40 @@ class KeywordVoicePlugin(Star):
         voices_dir_name = self.config.get("voices_dir", "voices")
         self.voices_dir = os.path.join(os.path.dirname(__file__), voices_dir_name)
 
-        mapping_str = self.config.get("keyword_voice_mapping", "{}")
-        try:
-            keyword_voice_map = json.loads(mapping_str)
-            if isinstance(keyword_voice_map, dict):
-                self.keyword_patterns = {}
-                for kw, voice_file in keyword_voice_map.items():
-                    pattern = re.compile(re.escape(kw))
-                    self.keyword_patterns[pattern] = voice_file
-                if self.debug_mode:
-                    logger.info(f"已加载 {len(self.keyword_patterns)} 个关键词映射")
-            else:
-                logger.error("keyword_voice_mapping 格式错误，应为 JSON 对象")
-        except json.JSONDecodeError as e:
-            logger.error(f"解析 keyword_voice_mapping 失败: {e}")
+        mapping_str = (self.config.get("keyword_voice_mapping") or "").strip()
+        keyword_voice_map = {}
+
+        if mapping_str.startswith("{"):
+            # 兼容旧 JSON 格式
+            try:
+                parsed = json.loads(mapping_str)
+                if not isinstance(parsed, dict):
+                    logger.error("keyword_voice_mapping JSON 格式错误，应为对象")
+                    parsed = {}
+                keyword_voice_map = parsed
+            except json.JSONDecodeError as e:
+                logger.error(f"解析 keyword_voice_mapping JSON 失败: {e}")
+        else:
+            # 新格式：每行一个 "关键词=语音文件"
+            for line_num, raw_line in enumerate(mapping_str.splitlines(), 1):
+                line = raw_line.strip()
+                if not line or line.startswith("#"):
+                    continue
+                if "=" not in line:
+                    logger.warning(f"关键词映射第 {line_num} 行格式错误，应为 '关键词=语音文件'：{raw_line}")
+                    continue
+                kw, _, voice_file = line.partition("=")
+                kw = kw.strip()
+                voice_file = voice_file.strip()
+                if kw and voice_file:
+                    keyword_voice_map[kw] = voice_file
+
+        self.keyword_patterns = {}
+        for kw, voice_file in keyword_voice_map.items():
+            self.keyword_patterns[re.compile(re.escape(kw))] = voice_file
+
+        if self.debug_mode:
+            logger.info(f"已加载 {len(self.keyword_patterns)} 个关键词映射")
 
     async def initialize(self):
         self._parse_config()

@@ -14,8 +14,8 @@
     "keyword_voice_mapping": {
         "description": "关键词-语音文件映射",
         "type": "text",
-        "default": "{\"哈哈哈\": \"hello.mp3\", \"丑\": \"1.mp3\"}",
-        "hint": "JSON格式，key为关键词，value为语音文件名"
+        "default": "你好=hello.mp3",
+        "hint": "每行一个映射，格式：关键词=语音文件名（例如：你好=hello.mp3）。以 # 开头的行会被忽略。也兼容旧 JSON 格式。"
     },
     "voices_dir": {
         "description": "语音文件目录",
